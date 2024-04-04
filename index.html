@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CONVERSOR DE CH</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  h1 {
+    color: #333;
+  }
+  
+  h1.titulo {
+    margin-bottom: 70px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555;
+  }
+
+  input[type="number"],
+  input[type="text"],
+  button {
+    width: calc(100% - 22px); /* Ajusta a largura para incluir a borda */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    text-align: center; /* Centraliza o texto nos campos de entrada */
+  }
+
+  button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    border: 1px solid #fff;    
+    font-size: 20px;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+
+  p {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  #resultado {
+    width: calc(100% - 22px); /* Ajusta a largura para incluir a borda */
+    padding: 10px;
+    border: 2px solid #4caf50; /* Altera a cor da borda */
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 24px; /* Ajusta o tamanho da fonte para os números do resultado */
+    font-weight: bold; /* Deixa os números em negrito */
+    margin-top: 50px;
+    color: #555;
+  }
+
+  /* Estilos para o modo escuro */
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #222;
+      color: #fff;
+    }
+    input,
+    select,
+    button {
+      background-color: #444;
+      color: #fff;
+    }
+    h1,
+    label,
+    #resultado {
+    color: #fff;
+    }
+    #resultado,
+    #quantidadeAulas,
+    #duracaoAula {
+    border: none;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="titulo">CONVERSOR DE CH</h1>
+    <label for="quantidadeAulas">QUANTIDADE DE AULAS</label>
+    <input type="number" id="quantidadeAulas" min="0" step="1">
+    
+    <label for="duracaoAula">DURAÇÃO DA AULA</label>
+    <input type="text" id="duracaoAula" pattern="[0-9]{2}:[0-9]{2}" value="00:50">
+    
+    <button onclick="converter()">CONVERTER</button>
+    
+    <input type="text" id="resultado" readonly>
+  </div>
+
+  <script>
+    function converter() {
+      var quantidadeAulas = parseInt(document.getElementById('quantidadeAulas').value);
+      var duracaoAula = document.getElementById('duracaoAula').value;
+      
+      var duracaoAulaSplit = duracaoAula.split(':');
+      var horas = parseInt(duracaoAulaSplit[0]);
+      var minutos = parseInt(duracaoAulaSplit[1]);
+      
+      if (isNaN(quantidadeAulas) || isNaN(horas) || isNaN(minutos)) { // Verifica se os valores são numéricos
+        document.getElementById('resultado').value = '00:00'; // Define o resultado como 00:00 se algum valor for inválido
+      } else {
+        var totalMinutos = quantidadeAulas * (horas * 60 + minutos);
+        var horasConvertidas = Math.floor(totalMinutos / 60);
+        var minutosConvertidos = totalMinutos % 60;
+        
+        document.getElementById('resultado').value = horasConvertidas.toString().padStart(2, '0') + ':' + minutosConvertidos.toString().padStart(2, '0');
+      }
+    }
+
+    // Chama a função converter() quando a página é carregada
+    window.onload = function() {
+      converter();
+    };
+  </script>
+</body>
+</html>
